@@ -1,0 +1,7 @@
+import java.util.*;
+
+maxLength = 0;
+foreach (item : Arrays.asList('red', 'green', 'blue')) {
+    maxLength = Math.max(maxLength, item.length());
+}
+return maxLength;
