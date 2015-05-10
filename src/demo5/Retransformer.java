@@ -8,9 +8,11 @@ import java.nio.file.Paths;
 public class Retransformer {
 
     public static void agentmain(String arg, Instrumentation instr) throws Exception {
-        String[] args = arg.split(" ");
-        Class oldClass = Class.forName(args[0]);
-        byte[] newClassData = Files.readAllBytes(Paths.get(args[1]));
+        Class oldClass = Class.forName("SwingSet2$AboutAction");
+
+        String classFile = "out/production/serviceability/SwingSet2$AboutAction.class";
+        byte[] newClassData = Files.readAllBytes(Paths.get(classFile));
+
         instr.redefineClasses(new ClassDefinition(oldClass, newClassData));
     }
 }

@@ -21,7 +21,7 @@ public class InternedStrings extends Tool {
             stats[0]++;
             stats[1] += s.getObjectSize() + valueField.getValue(s).getObjectSize();
         });
-        System.out.printf("%d string with total size %d\n", stats[0], stats[1]);
+        System.out.printf("%d strings with total size %d\n", stats[0], stats[1]);
     }
 
     public static void main(String[] args) {
