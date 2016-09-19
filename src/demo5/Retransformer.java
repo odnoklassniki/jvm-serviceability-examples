@@ -6,13 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Retransformer {
+    private static final String CLASSPATH = "out/production/serviceability/";
 
     public static void agentmain(String arg, Instrumentation instr) throws Exception {
-        Class oldClass = Class.forName("SwingSet2$AboutAction");
+        Class oldClass = Class.forName("java2d.demos.Arcs_Curves.Ellipses");
+        String newFile = CLASSPATH + "java2d/demos/Arcs_Curves/Ellipses.class";
 
-        String classFile = "out/production/serviceability/SwingSet2$AboutAction.class";
-        byte[] newClassData = Files.readAllBytes(Paths.get(classFile));
-
+        byte[] newClassData = Files.readAllBytes(Paths.get(newFile));
         instr.redefineClasses(new ClassDefinition(oldClass, newClassData));
     }
 }

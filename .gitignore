@@ -1,8 +1,11 @@
 *.class
 *.jar
+*.dll
 
 /build
 /lib
+/out
+/src/java2d
 
 .idea
 *.iml

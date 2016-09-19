@@ -1,47 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="serviceability" default="compile">
-
-    <target name="check-lib">
-        <condition property="lib.exists">
-            <available file="lib" type="dir"/>
-        </condition>
-    </target>
-    
-    <target name="compile" depends="check-lib">
-        <fail unless="${lib.exists}" message="Please copy MVEL library jar to 'lib' folder."/>
-
-        <mkdir dir="build"/>
-        <javac destdir="build" srcdir="src">
-            <include name="**/*.java"/>
-            <classpath>
-                <fileset dir="${java.home}/../lib" includes="*.jar"/>
-                <fileset dir="lib" includes="*.jar" erroronmissingdir="false"/>
-            </classpath>
-        </javac>
-    </target>
+<project name="serviceability">
 
     <target name="extrace.dll">
-        <exec osfamily="Windows" executable="cl.bat" dir="src/demo4/agent">
-            <arg line="/LD extrace.c"/>
-        </exec>
-        <exec os="Linux" executable="gcc" dir="src/demo4/agent">
-            <arg line="-fPIC -shared -Wl,soname,libextrace.so -o libextrace.so extrace.c"/>
+        <exec executable="cl.bat" dir="src/demo4/agent">
+            <arg line="/O2 /LD extrace.cpp"/>
         </exec>
     </target>
 
-    <target name="retransformer.jar" depends="compile">
-        <jar jarfile="build/retransformer.jar">
+    <target name="retransformer.jar">
+        <jar jarfile="retransformer.jar">
             <manifest>
                 <attribute name="Agent-Class" value="demo5.Retransformer"/>
                 <attribute name="Can-Redefine-Classes" value="true"/>
             </manifest>
-            <fileset dir="build" includes="demo5/Retransformer.class"/>
+            <fileset dir="out/production/serviceability" includes="demo5/*.class"/>
         </jar>
     </target>
 
     <target name="clean">
-        <delete dir="src/demo4/agent" excludes="*.c"/>
-        <delete dir="build"/>
+        <delete dir="src/demo4/agent" excludes="*.cpp"/>
+        <delete file="retransformer.jar"/>
     </target>
 
 </project>

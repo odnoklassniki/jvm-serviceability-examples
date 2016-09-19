@@ -5,26 +5,25 @@ import org.mvel2.MVEL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.concurrent.atomic.LongAdder;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class ExpressionEval extends Thread {
+public class Eval extends Thread {
 
     public static void main(String[] args) throws Exception {
         String script = new String(Files.readAllBytes(Paths.get("src/demo4/script.mvel")));
         HashMap<String, Object> context = new HashMap<>();
-        LongAdder count = new LongAdder();
+        AtomicLong count = new AtomicLong();
 
         new Thread(() -> {
-            for (;;) {
+            while (true) {
                 MVEL.eval(script, context);
-                count.increment();
+                count.incrementAndGet();
             }
-
         }).start();
 
-        for (;;) {
+        while (true) {
             Thread.sleep(1000);
-            System.out.println(count.sumThenReset());
+            System.out.println(count.getAndSet(0));
         }
     }
 }
