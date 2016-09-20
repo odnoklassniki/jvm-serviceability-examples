@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class PerfConterProfiler {
+public class PerfCounterProfiler {
 
     public static void main(String[] args) throws Exception {
         MonitoredHost host = MonitoredHost.getMonitoredHost((String) null);
